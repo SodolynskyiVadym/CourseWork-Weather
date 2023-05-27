@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Redactor page</title>
+</head>
+<body>
+<form th:action="@{/save}" th:object="${generalWeather}" th:method="POST">
+    <datalist id="weatherList">
+        <option value="Rain">
+        <option value="Sun">
+        <option value="Snow">
+        <option value="Gloomy">
+    </datalist>
+
+
+    ID <input type="text" th:field="*{id}" readonly><br>
+    NAME <input type="text" th:field="*{name}" readonly><br>
+    DATE <input type="text" th:field="*{date}" readonly><br>
+    TIME <input type="text" th:field="*{time}" readonly><br>
+    <div>
+    Weather <input type="text" list="weatherList" th:field="*{weather}" placeholder="Weather"><br>
+        <p th:if="${#fields.hasErrors('weather')}" th:errors="*{weather}"></p>
+    </div>
+    <div>
+    Wind speed <input type="text" th:field="*{windSpeed}" placeholder="Wind speed"><br>
+        <p th:if="${#fields.hasErrors('windSpeed')}" th:errors="*{windSpeed}"></p>
+    </div>
+    <div>
+    Temperature <input type="text" th:field="*{temperature}" placeholder="Temperature"><br>
+        <p th:if="${#fields.hasErrors('temperature')}" th:errors="*{temperature}"></p>
+    </div>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

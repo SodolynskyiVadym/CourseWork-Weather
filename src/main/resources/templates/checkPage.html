@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check page</title>
+</head>
+<body>
+<table>
+  <tr>
+    <th>Name of settlement</th>
+    <th>Action</th>
+  </tr>
+
+  <tbody>
+  <tr th:each="weather : ${weathers}">
+    <td th:text="${weather.name}"></td>
+    <td>
+      <form th:action="@{/showRedactorPage}" th:object="${weather}" method="POST">
+        <input type="hidden" name="name" th:value="${weather.name}">
+        <input type="text" name="date" th:value="${weather.date}"  readonly>
+        <input type="text" name="time" th:value="${weather.time}" readonly>
+        <input type="submit" value="Redact">
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

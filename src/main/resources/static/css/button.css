@@ -1,0 +1,7 @@
+.form-container {
+    text-align: right;
+}
+
+.form-container input[type="submit"] {
+    float: right;
+}

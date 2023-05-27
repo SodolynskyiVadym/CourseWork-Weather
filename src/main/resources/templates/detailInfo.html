@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Information about weather</title>
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+</head>
+<body>
+<h1 th:text="${weathers.get(0).getName()}"></h1>
+<h3 th:text="${weathers.get(0).getDate()}"></h3>
+<table>
+    <tr>
+        <th>Time</th>
+        <th>Weather</th>
+        <th>Wind speed</th>
+        <th>Temperature</th>
+    </tr>
+    <tr th:each="weather : ${weathers}">
+        <td th:text="${weather.time}" />
+        <td th:text="${weather.weather}" />
+        <td th:text="${weather.windSpeed}" />
+        <td th:text="${weather.temperature}" />
+    </tr>
+
+</table>
+<div th:if="${previousDay != null}">
+    <form th:action="@{/showDetailInfo}" method="GET">
+        <input type="hidden" name="name" th:value="${weathers.get(0).name}">
+        <input type="hidden" name="date" th:value="${previousDay.getDate()}">
+        <input type="submit" value="Go to previous day">
+    </form>
+</div>
+
+<div th:if="${nextDay != null}">
+    <form th:action="@{/showDetailInfo}" method="GET" class="form-container">
+        <input type="hidden" name="name" th:value="${weathers.get(0).name}">
+        <input type="hidden" name="date" th:value="${nextDay.getDate()}">
+        <input type="submit" value="Go to next day">
+    </form>
+</div>
+<a th:href="@{/}">Main page</a>
+</body>
+</html>

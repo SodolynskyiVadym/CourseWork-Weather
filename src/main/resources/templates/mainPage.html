@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
@@ -35,12 +35,14 @@ Delete date:
     <input type="submit" th:value="DELETE">
 </form><br>
 
+<div sec:authorize="hasRole('ADMIN')">
+    Delete location:
+    <form action="deleteByLocation" method="POST">
+        <input type="text" name="name" placeholder="LOCATION">
+        <input type="submit" th:value="DELETE">
+    </form>
+</div>
 
-Delete location:
-<form action="deleteByLocation" method="POST">
-    <input type="text" name="name" placeholder="LOCATION">
-    <input type="submit" th:value="DELETE">
-</form>
 
 <table>
     <tr>

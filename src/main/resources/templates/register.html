@@ -6,9 +6,18 @@
 </head>
 <body>
 <form th:action="@{/register}" th:object="${userRegisterResponse}" method="POST">
+    <div>
     <input type="text" name="username" th:field="*{username}">
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+    </div>
+
+    <div>
     <input type="password" name="password" th:field="*{password}">
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+    </div>
+
     <input type="password" name="passwordConfirmation" th:field="*{passwordConfirmation}">
+
     <input type="submit" name="REGISTRATION">
 </form>
 <a th:href="@{/login}">LOG IN</a>

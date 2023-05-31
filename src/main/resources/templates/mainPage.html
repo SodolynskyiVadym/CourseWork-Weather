@@ -1,71 +1,90 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Main page</title>
+    <title>Головна сторінка</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        input[type="submit"]:hover {
+            background-color: #000000;
+            color: rgb(246, 244, 248);
+        }
+
+
+
+        .center-column {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-Create location:
-<form action="createLocation" method="POST">
-    <input type="text" name="name" placeholder="CREATE LOCATION">
-    <input type="submit" value="CREATE LOCATION">
-</form><br>
 
-Create date:
-<form action="createDate" method="POST">
-    <input type="text" name="previousDate" placeholder="PREVIOUS DATE">
-    <input type="text" name="date" placeholder="DATE">
-    <input type="text" name="nextDate" placeholder="NEXT DATE">
-    <input type="submit" value="CREATE DATE">
-</form><br>
-
-
-Edit weather:
-<form action="showRedactorPage" method="POST">
-    <input type="text" name="name" placeholder="NAME">
-    <input type="text" name="date" placeholder="DATE">
-    <input type="text" name="time" placeholder="TIME">
-    <input type="submit" value="Redactoring">
-</form><br>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="https://en.wikipedia.org/wiki/Weather">Weather</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link btn btn-primary" th:href="@{admin/adminPage}">Адміністратор</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link btn btn-primary" th:href="@{editor/editorPage}">Редактор</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link btn btn-primary" th:href="@{contactPage}">Контакти</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 
-Delete date:
-<form action="deleteByDate" method="POST">
-    <input type="text" name="date" placeholder="DATE">
-    <input type="submit" th:value="DELETE">
-</form><br>
 
-<div sec:authorize="hasRole('ADMIN')">
-    Delete location:
-    <form action="deleteByLocation" method="POST">
-        <input type="text" name="name" placeholder="LOCATION">
-        <input type="submit" th:value="DELETE">
-    </form>
+<div class="jumbotron text-center" style="background-image: url('img/mainfon.jpg');">
+    <h1>Вітаємо на нашому веб-сайті</h1>
 </div>
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 center-input">
 
-<table>
-    <tr>
+            <form th:action="@{searchByLocation}" th:method="GET">
+                <label th:for="name">Назва населеного пункту: </label>
+                <input type="text" th:name="name" size="60">
+                <input type="submit" th:value="ЗНАЙТИ">
+            </form>
+        </div>
+    </div>
+</div><br><br>
+
+<div class="text-center">
+    <h3>Список населених пунктів</h3>
+</div>
+<table  class="table table-bordered table-striped mx-auto">
+    <tr class="center-column">
         <th>Name of settlement</th>
-        <th>Action</th>
+        <th>Date</th>
     </tr>
 
     <tbody>
     <tr th:each="location : ${locations}">
-        <td th:text="${location.name}" />
-        <td>
+        <td th:text="${location.name}" class="center-column"/>
+        <td class="center-column">
             <form th:action="@{/showDetailInfo}" th:object="${location}" method="GET">
                 <datalist id="timeList">
                     <option th:each="generalDate : ${dates}" th:value="${generalDate.getDate()}"></option>
                 </datalist>
-                <input type="hidden" name="name" th:value="${location.name}">
-                <input type="text" name="date" list="timeList">
-                <input type="submit" value="Search">
+                <input type="hidden" name="name" th:value="${location.name}" class="text-center">
+                <input type="text" name="date" list="timeList" size="40" placeholder="Вкажіть дату">
+                <input type="submit" value="ЗНАЙТИ">
             </form>
         </td>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/showEmptyWeathers}">Показати незаповнені поля</a>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

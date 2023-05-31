@@ -29,6 +29,8 @@ public class UserController {
         this.generalDateService = generalDateService;
     }
 
+
+
     @GetMapping("/")
     public String toMainPage(Model model){
         List<Location> locations = locationService.findAll();
@@ -36,6 +38,27 @@ public class UserController {
         model.addAttribute("locations", locations);
         model.addAttribute("dates", dates);
         return "mainPage";
+    }
+
+    @GetMapping("/searchByLocation")
+    public String findLocationDate(@RequestParam("name") String name, Model model){
+        if(locationService.findByName(name.toUpperCase()) == null){
+            return "errorPage";
+        }
+        String date = generalDateService.findAll().get(0).getDate();
+        if(generalDateService.findAll().size() == 0){
+            System.out.println("Not found date");
+            return "errorPage";
+        }
+        GeneralDate generalDate = generalDateService.findAll().get(0);
+
+        List<GeneralWeather> weathers = generalWeatherService.findAllByNameDate(name.toUpperCase(), date.toUpperCase());
+        GeneralDate nextDay = generalDateService.findByDate(generalDate.getNextDate());
+        GeneralDate previousDay = generalDateService.findByDate(generalDate.getPreviousDate());
+        model.addAttribute("weathers", weathers);
+        model.addAttribute("nextDay", nextDay);
+        model.addAttribute("previousDay", previousDay);
+        return "detailInfo";
     }
 
     @GetMapping("/showDetailInfo")
@@ -48,10 +71,16 @@ public class UserController {
         List<GeneralWeather> weathers = generalWeatherService.findAllByNameDate(name.toUpperCase(), date.toUpperCase());
         GeneralDate nextDay = generalDateService.findByDate(generalDate.getNextDate());
         GeneralDate previousDay = generalDateService.findByDate(generalDate.getPreviousDate());
+        String country = locationService.findByName(name).getCountry();
         model.addAttribute("weathers", weathers);
         model.addAttribute("nextDay", nextDay);
         model.addAttribute("previousDay", previousDay);
+        model.addAttribute("country", country);
         return "detailInfo";
+    }
 
+    @GetMapping("/contactPage")
+    public String toContactPage(){
+        return "contact";
     }
 }

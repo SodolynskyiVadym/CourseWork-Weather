@@ -34,8 +34,9 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/adminConsole/**").hasAuthority(Role.ADMIN.toString())
-                        .requestMatchers("/login/**", "/register/**").permitAll()
+                        .requestMatchers("/admin/**", "/register/**").hasAuthority(Role.ADMIN.toString())
+                        .requestMatchers("/editor/**").hasAuthority(Role.EDITOR.toString())
+                        .requestMatchers("/login/**", "/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -51,7 +52,7 @@ public class WebSecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/")
                 );
         return http.build();
     }

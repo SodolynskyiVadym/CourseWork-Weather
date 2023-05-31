@@ -15,7 +15,7 @@
   <tr th:each="weather : ${weathers}">
     <td th:text="${weather.name}"></td>
     <td>
-      <form th:action="@{/showRedactorPage}" th:object="${weather}" method="POST">
+      <form th:action="@{showRedactorPage}" th:object="${weather}" method="POST">
         <input type="hidden" name="name" th:value="${weather.name}">
         <input type="text" name="date" th:value="${weather.date}"  readonly>
         <input type="text" name="time" th:value="${weather.time}" readonly>

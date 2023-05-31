@@ -1,6 +1,9 @@
 package com.code.CourseWorkWeather.controllers;
 
 
+import com.code.CourseWorkWeather.bussinesLogic.AdditionalClass;
+import com.code.CourseWorkWeather.dao.GeneralDateDAO;
+import com.code.CourseWorkWeather.dao.LocationDAO;
 import com.code.CourseWorkWeather.models.GeneralDate;
 import com.code.CourseWorkWeather.models.GeneralWeather;
 import com.code.CourseWorkWeather.models.Location;
@@ -17,47 +20,57 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class AdminController {
+@RequestMapping("/editor")
+public class EditorController {
     LocationServiceImpl locationService;
     GeneralWeatherServiceImpl generalWeatherService;
     GeneralDateServiceImpl generalDateService;
 
     @Autowired
-    public AdminController(LocationServiceImpl locationService, GeneralWeatherServiceImpl generalWeatherService,
-                          GeneralDateServiceImpl generalDateService) {
+    public EditorController(LocationServiceImpl locationService, GeneralWeatherServiceImpl generalWeatherService,
+                            GeneralDateServiceImpl generalDateService) {
         this.locationService = locationService;
         this.generalWeatherService = generalWeatherService;
         this.generalDateService = generalDateService;
     }
 
-    private void saveNewWeather(Location location, GeneralDate mainDate){
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "MIDNIGHT"));
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "MORNING"));
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "MIDDAY"));
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "EVENING"));
+
+    @GetMapping("/editorPage")
+    private String toEditorPage(Model model){
+        GeneralDateDAO generalDateDAO = new GeneralDateDAO();
+        LocationDAO locationDAO = new LocationDAO();
+        model.addAttribute("generalDateDAO", generalDateDAO);
+        model.addAttribute("locationDAO" , locationDAO);
+        return "editorPage";
     }
 
     @PostMapping("/createLocation")
-    public String createLocation(@RequestParam("name") String name){
+    public String createLocation(@RequestParam("name") String name, @RequestParam("country") String country){
+        if (AdditionalClass.checkLocation(name, country)){
+            return "errorPage";
+        }
         Location location = new Location(name.toUpperCase());
         locationService.save(location);
         List<GeneralDate> dates = generalDateService.findAll();
         for(GeneralDate generalDate: dates){
-            this.saveNewWeather(location, generalDate);
+            AdditionalClass.saveNewWeather(location, generalDate, generalWeatherService);
         }
-        return "redirect:/";
+        return "redirect:/editor/editorPage";
     }
 
     @PostMapping("/createDate")
     public String createDate(@RequestParam("date") String date, @RequestParam("nextDate") String nextDate,
                              @RequestParam("previousDate") String previousDate){
+        if (AdditionalClass.checkDateData(date, nextDate, previousDate)){
+            return "errorPage";
+        }
         GeneralDate generalDate = new GeneralDate(date.toUpperCase(), nextDate.toUpperCase(), previousDate.toUpperCase());
         generalDateService.save(generalDate);
         List<Location> locations = locationService.findAll();
         for(Location location: locations){
-            this.saveNewWeather(location, generalDate);
+            AdditionalClass.saveNewWeather(location, generalDate, generalWeatherService);
         }
-        return "redirect:/";
+        return "redirect:/editor/editorPage";
     }
 
     @PostMapping("/showRedactorPage")
@@ -77,21 +90,21 @@ public class AdminController {
             return "redactor";
         }
         generalWeatherService.save(generalWeather);
-        return "redirect:/";
+        return "redirect:/editor/editorPage";
     }
 
     @PostMapping("/deleteByDate")
     String deleteDate(@RequestParam("date") String date){
         generalWeatherService.deleteAllByDate(date.toUpperCase());
         generalDateService.deleteAllByDate(date.toUpperCase());
-        return "redirect:/";
+        return "redirect:/editor/editorPage";
     }
 
     @PostMapping("/deleteByLocation")
     String deleteLocation(@RequestParam("name") String name){
         generalWeatherService.deleteAllByName(name.toUpperCase());
         locationService.deleteAllByName(name.toUpperCase());
-        return "redirect:/";
+        return "redirect:/editor/editorPage";
     }
 
     @GetMapping("/showEmptyWeathers")

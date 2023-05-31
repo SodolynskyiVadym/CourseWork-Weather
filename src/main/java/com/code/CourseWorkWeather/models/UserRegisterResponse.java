@@ -17,6 +17,5 @@ public class UserRegisterResponse {
     @Size(min = 6, message = "Minimal password length is 6 characters")
     private String password;
 
-    @Size(min = 6, message = "Minimal password length is 6 characters")
     private String passwordConfirmation;
 }

@@ -2,8 +2,6 @@ package com.code.CourseWorkWeather.models;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,16 +28,13 @@ public class GeneralWeather {
     @Column(name = "time")
     private String time;
 
-    @NotEmpty(message = "field shouldn't be empty")
     @Column(name = "weather")
     private String weather;
 
-    @NotEmpty(message = "field shouldn't be empty")
     @Column(name = "wind_speed")
     private String windSpeed;
 
-    @Pattern(regexp ="\\d+", message = "Must be number")
-    @NotEmpty(message = "field shouldn't be empty")
+
     @Column(name = "temperature")
     private String temperature;
 

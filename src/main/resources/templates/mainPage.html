@@ -55,8 +55,11 @@
         <div class="col-md-12 center-input">
 
             <form th:action="@{searchByLocation}" th:method="GET">
+                <datalist id="locationList">
+                    <option th:each="locationfromlist : ${locations}" th:value="${locationfromlist.name}"></option>
+                </datalist>
                 <label th:for="name">Назва населеного пункту: </label>
-                <input type="text" th:name="name" size="60">
+                <input type="text" th:name="name" size="60" list="locationList">
                 <input type="submit" th:value="ЗНАЙТИ">
             </form>
         </div>

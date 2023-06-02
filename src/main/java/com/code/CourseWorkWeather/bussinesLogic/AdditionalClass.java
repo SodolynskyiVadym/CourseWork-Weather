@@ -7,9 +7,13 @@ import com.code.CourseWorkWeather.services.GeneralWeatherServiceImpl;
 
 public class AdditionalClass {
     public static void saveNewWeather(Location location, GeneralDate mainDate, GeneralWeatherServiceImpl generalWeatherService){
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "НІЧ"));
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "РАНОК"));
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ДЕНЬ"));
-        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ВЕЧІР"));
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "НІЧ",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "РАНОК",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ДЕНЬ",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ВЕЧІР",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
     }
 }

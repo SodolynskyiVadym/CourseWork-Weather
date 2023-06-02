@@ -64,6 +64,7 @@ public class UserController {
         model.addAttribute("weathers", weathers);
         model.addAttribute("nextDay", nextDay);
         model.addAttribute("previousDay", previousDay);
+        model.addAttribute("country", locationService.findByName(name).getCountry());
         return "detailInfo";
     }
 
@@ -81,6 +82,7 @@ public class UserController {
         model.addAttribute("weathers", weathers);
         model.addAttribute("nextDay", nextDay);
         model.addAttribute("previousDay", previousDay);
+        System.out.println(country);
         model.addAttribute("country", country);
         return "detailInfo";
     }

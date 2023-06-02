@@ -2,13 +2,9 @@ package com.code.CourseWorkWeather.models;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
-@Table(name = "general_weather")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -47,11 +43,14 @@ public class GeneralWeather {
         this.time = time;
     }
 
-    public GeneralWeather(int id, String name, String date, String time) {
-        this.id = id;
+    public GeneralWeather(String name, String date, String time, String weather, String windSpeed, String temperature, String precipitation) {
         this.name = name;
         this.date = date;
         this.time = time;
+        this.weather = weather;
+        this.windSpeed = windSpeed;
+        this.temperature = temperature;
+        this.precipitation = precipitation;
     }
 
     public boolean isNumber(String str) {
@@ -61,8 +60,9 @@ public class GeneralWeather {
 
 
     public boolean checkOnOccupancy(){
-        if ((weather!=null && windSpeed!=null && temperature!=null &&  precipitation!=null && this.isNumber(windSpeed) &&
-                this.isNumber(temperature) && this.isNumber(precipitation))){
+        if ((weather.equals("не вказано") && windSpeed.equals("не вказано") && temperature.equals("не вказано") &&
+                precipitation.equals("не вказано") && this.isNumber(windSpeed) && this.isNumber(temperature)
+                && this.isNumber(precipitation))){
             return false;
         }
         return true;

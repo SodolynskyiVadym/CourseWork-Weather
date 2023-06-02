@@ -60,7 +60,7 @@
                 </datalist>
                 <label th:for="name">Назва населеного пункту: </label>
                 <input type="text" th:name="name" size="60" list="locationList">
-                <input type="submit" th:value="ЗНАЙТИ">
+                <input type="submit" th:value="ЗНАЙТИ" class="btn btn-primary btn-sm mb-3">
             </form>
         </div>
     </div>
@@ -85,7 +85,7 @@
                 </datalist>
                 <input type="hidden" name="name" th:value="${location.name}" class="text-center">
                 <input type="text" name="date" list="timeList" size="40" placeholder="Вкажіть дату">
-                <input type="submit" value="ЗНАЙТИ">
+                <input type="submit" value="ЗНАЙТИ" class="btn btn-primary btn-sm mb-3">
             </form>
         </td>
     </tr>

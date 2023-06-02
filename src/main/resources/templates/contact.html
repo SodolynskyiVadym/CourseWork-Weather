@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .center-column {
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: collapse;
+    }
+
+    .center-column th,
+    .center-column td {
+        text-align: center;
+        padding: 10px;
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+<table class="center-column">
+    <tr>
+        <td>Номер телефону</td>
+        <td>+3809723462736</td>
+    </tr>
+    <tr>
+        <td>Електронна пошта</td>
+        <td>weatherstoprocents@gmail.com</td>
+    </tr>
+</table>
+<div class="text-center">
+    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">На головну сторінку</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

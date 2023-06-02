@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        input[type="submit"]:hover {
+            background-color: #000000;
+            color: rgb(246, 244, 248);
+        }
+
+        .center-column {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+
+        .center-column th,
+        .center-column td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        body {
+            background: #817e7e;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        table {
+            background: #ffffff;
+            border-radius: 0.25em;
+            border-collapse: collapse;
+            margin: 1em;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="https://en.wikipedia.org/wiki/Weather">Weather</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link btn btn-primary" th:href="@{/}">Головна сторінка</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link btn btn-primary" th:href="@{/admin/toRegistrationForm}">Зареєструвати нового редактора</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link btn btn-primary" th:href="@{/logout}">ВИЙТИ</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<table class="center-column" style="width: 60%;">
+    <tr>
+        <td style="width: 15%;">Користувач</td>
+        <td style="width: 15%;">Роль</td>
+        <td style="width: 15%;">Видалити користувача</td>
+    <tr th:each="user : ${usersList}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.role.toString()}"></td>
+        <td>
+            <form th:action="@{deleteUser}" th:method="POST">
+                <input type="hidden" name="username" th:value="${user.username}">
+                <input type="submit" value="ВИДАЛИТИ">
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

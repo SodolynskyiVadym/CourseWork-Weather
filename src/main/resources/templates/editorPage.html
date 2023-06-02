@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    input[type="submit"]:hover {
+      background-color: #000000;
+      color: rgb(246, 244, 248);
+    }
+
+    .error-container {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+    }
+
+    .error-message {
+      color: red;
+    }
+
+    .center-column {
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse;
+    }
+
+    .center-column th,
+    .center-column td {
+      text-align: center;
+      padding: 10px;
+      border: 1px solid black;
+    }
+    body {
+      background: #817e7e;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    table {
+      background: #ffffff;
+      border-radius: 0.25em;
+      border-collapse: collapse;
+      margin: 1em;
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="https://en.wikipedia.org/wiki/Weather">Weather</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link btn btn-primary" th:href="@{/}">Головна сторінка</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link btn btn-primary" th:href="@{/logout}">ВИЙТИ</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<table class="center-column">
+  <tr>
+    <th>ОПИС</th>
+    <th>ДІЯ</th>
+  </tr>
+  <tr>
+    <td>Створити поселення</td>
+    <td>
+      <form th:object="${locationDAO}" th:action="@{createLocation}" method="POST">
+        <div>
+        <input type="text" th:name="name" placeholder="НАЗВА ПОСЕЛЕННЯ" class="form-control">
+        <input type="text" th:name="country" placeholder="КРАЇНА" class="form-control">
+        <input type="submit" value="СТВОРИТИ ПОСЕЛЕННЯ" class="btn btn-primary btn-sm mb-3">
+        </div>
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Створити день</td>
+    <td>
+      <form th:object="${generalDateDAO}" th:action="@{createDate}" method="POST">
+        <div class="error-container">
+        <input type="text" th:name="previousDate" placeholder="ПОПЕРЕДНЯ ДАТА" class="form-control">
+          <span th:errors="*{previousDate}" class="error-message"></span>
+        </div>
+        <div class="error-container">
+        <input type="text" th:name="date" placeholder="ДАТА" class="form-control">
+          <span th:errors="*{date}" class="error-message"></span>
+        </div>
+        <div class="error-container">
+        <input type="text" th:name="nextDate" placeholder="НАСТУПНА ДАТА" class="form-control">
+        <span th:errors="*{date}" class="error-message"></span>
+        </div>
+        <input type="submit" value="СТВОРИТИ ДЕНЬ" class="btn btn-primary btn-sm mb-3">
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Редагувати погоду</td>
+    <td>
+      <form th:action="@{showRedactorPage}" method="POST">
+        <datalist id="weatherlist">
+          <option>ДОЩ</option>
+          <option>СНІГ</option>
+          <option>ГРІМ</option>
+          <option>СОНЯЧНО</option>
+          <option>ХМАРНО</option>
+        </datalist>
+        <input type="text" name="name" placeholder="НАЗВА ПОСЕЛЕННЯ" class="form-control">
+        <input type="text" name="date" placeholder="ДАТА" class="form-control">
+        <input type="text" name="time" placeholder="ЧАС" class="form-control" list="weatherlist">
+        <input type="submit" value="РЕДАКТУВАТИ" class="btn btn-primary btn-sm mb-3">
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Видалити дату</td>
+    <td>
+      <form th:action="@{deleteByDate}" method="POST">
+        <input type="text" name="date" placeholder="ДАТА">
+        <input type="submit" value="ВИДАЛИТИ ДАТУ" class="btn btn-primary btn-sm mb-3">
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Видалити поселення</td>
+    <td>
+      <form th:action="@{deleteByLocation}" method="POST">
+        <input type="text" name="name" placeholder="ПОСЕЛЕННЯ">
+        <input type="submit" value="ВИДАЛИТИ ПОСЕЛЕННЯ" class="btn btn-primary btn-sm mb-3">
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Редагувати поселення</td>
+    <td>
+      <form th:action="@{updateLocation}" method="POST">
+        <input type="text" name="oldName" placeholder="СТАРА НАЗВА ПОСЕЛЕННЯ" class="form-control">
+        <input type="text" name="newName" placeholder="НОВА НАЗВА ПОСЕЛЕННЯ" class="form-control">
+        <input type="text" name="newCountry" placeholder="НОВА НАЗВА КРАЇНИ" class="form-control">
+        <input type="submit" value="РЕДАГУВАТИ ПОСЕЛЕННЯ" class="btn btn-primary btn-sm mb-3">
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Редагувати дату</td>
+    <td>
+      <form th:action="@{updateDate}" method="POST">
+        <input type="text" name="oldDate" placeholder="СТАРА ДАТА" class="form-control">
+        <input type="text" name="newPreviousDate" placeholder="НОВА ПОПЕРЕДНЯ ДАТА" class="form-control">
+        <input type="text" name="newDate" placeholder="НОВА ДАТА" class="form-control">
+        <input type="text" name="newNextDate" placeholder="НОВА НАСТУПНА ДАТА" class="form-control">
+        <input type="submit" value="РЕДАГУВАТИ ДАТУ" class="btn btn-primary btn-sm mb-3">
+      </form>
+    </td>
+  </tr>
+</table>
+<div class="text-center">
+  <a th:href="@{showEmptyWeathers}" class="btn btn-primary btn-sm mb-3" >Показати поселення з невказаною погодою</a>
+</div>
+</body>
+</html>

@@ -9,6 +9,11 @@
             color: rgb(246, 244, 248);
         }
 
+        body {
+            background: #acb5b6;
+            font-family: 'Open Sans', sans-serif;
+        }
+
 
 
         .center-column {
@@ -83,8 +88,6 @@
     </tr>
     </tbody>
 </table>
-<!-- Приклад для ролі ADMIN -->
-<button th:if="${#authorization.expression('hasRole(''ADMIN'')')}" type="button">Адміністративна кнопка</button>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

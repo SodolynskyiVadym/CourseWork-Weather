@@ -38,6 +38,9 @@ public class GeneralWeather {
     @Column(name = "temperature")
     private String temperature;
 
+    @Column(name = "precipitation")
+    private String precipitation;
+
     public GeneralWeather(String name, String date, String time) {
         this.name = name;
         this.date = date;
@@ -58,8 +61,8 @@ public class GeneralWeather {
 
 
     public boolean checkOnOccupancy(){
-        if ((weather!=null && windSpeed!=null && temperature!=null && this.isNumber(windSpeed) &&
-                this.isNumber(temperature))){
+        if ((weather!=null && windSpeed!=null && temperature!=null &&  precipitation!=null && this.isNumber(windSpeed) &&
+                this.isNumber(temperature) && this.isNumber(precipitation))){
             return false;
         }
         return true;

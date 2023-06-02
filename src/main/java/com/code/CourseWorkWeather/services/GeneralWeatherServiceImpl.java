@@ -62,6 +62,16 @@ public class GeneralWeatherServiceImpl implements GeneralWeatherService {
     }
 
     @Override
+    public List<GeneralWeather> findAllByName(String name) {
+        return generalWeatherRepository.findAllByName(name);
+    }
+
+    @Override
+    public List<GeneralWeather> findAllByDate(String date) {
+        return generalWeatherRepository.findAllByDate(date);
+    }
+
+    @Override
     public List<GeneralWeather> findAllByNameDate(String name, String date) {
         return generalWeatherRepository.findAllByNameAndDate(name, date).stream()
                 .sorted((x, y) -> x.getId() - y.getId())

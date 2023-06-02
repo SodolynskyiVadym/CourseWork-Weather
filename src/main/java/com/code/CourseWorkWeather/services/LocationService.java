@@ -13,4 +13,7 @@ public interface LocationService {
     void save(Location location);
 
     void deleteAllByName(String name);
+    boolean existByName(String name);
+
+
 }

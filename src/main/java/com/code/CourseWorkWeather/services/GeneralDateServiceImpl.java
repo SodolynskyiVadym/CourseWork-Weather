@@ -58,4 +58,9 @@ public class GeneralDateServiceImpl implements GeneralDateService {
     public GeneralDate findByDate(String date) {
         return generalDateRepository.findByDate(date);
     }
+
+    @Override
+    public boolean existByDate(String date) {
+        return generalDateRepository.existsByDate(date);
+    }
 }

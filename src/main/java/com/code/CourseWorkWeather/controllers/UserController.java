@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -35,8 +37,12 @@ public class UserController {
     public String toMainPage(Model model){
         List<Location> locations = locationService.findAll();
         List<GeneralDate> dates = generalDateService.findAll();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy ");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(timeFormat.format(now));
         model.addAttribute("locations", locations);
         model.addAttribute("dates", dates);
+        model.addAttribute("globalTime", timeFormat.format(now));
         return "mainPage";
     }
 
@@ -77,6 +83,11 @@ public class UserController {
         model.addAttribute("previousDay", previousDay);
         model.addAttribute("country", country);
         return "detailInfo";
+    }
+
+    @GetMapping("/toAccessDeniedPage")
+    public String toAccessDeniedPAge(){
+        return "accessDeniedPage";
     }
 
     @GetMapping("/contactPage")

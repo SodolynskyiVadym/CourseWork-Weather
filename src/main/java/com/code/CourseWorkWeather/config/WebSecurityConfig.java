@@ -34,7 +34,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/admin/**", "/register/**").hasAuthority(Role.ADMIN.toString())
+                        .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.toString())
                         .requestMatchers("/editor/**").hasAuthority(Role.EDITOR.toString())
                         .requestMatchers("/login/**", "/**").permitAll()
                         .anyRequest().authenticated()
@@ -48,12 +48,13 @@ public class WebSecurityConfig {
                 )
                 .logout((logout) -> logout
                         .permitAll()
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/")
-                );
+                )
+                .exceptionHandling(requst -> requst.accessDeniedPage("/toAccessDeniedPage"));
         return http.build();
     }
 

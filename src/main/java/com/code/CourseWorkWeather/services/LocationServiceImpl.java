@@ -55,4 +55,9 @@ public class LocationServiceImpl implements LocationService{
     public void deleteAllByName(String name) {
         locationRepository.deleteAllByName(name);
     }
+
+    @Override
+    public boolean existByName(String name) {
+        return locationRepository.existsByName(name);
+    }
 }

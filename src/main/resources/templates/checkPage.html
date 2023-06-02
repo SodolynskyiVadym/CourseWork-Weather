@@ -3,12 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Check page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .center-column {
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse;
+    }
+
+    .center-column th,
+    .center-column td {
+      text-align: center;
+      padding: 10px;
+      border: 1px solid black;
+    }
+  </style>
 </head>
 <body>
-<table>
+
+<div class="text-center">
+  <a th:href="@{/}" class="btn btn-primary btn-sm mb-3" >ГОЛОВНА СТОРІНКА</a>
+</div>
+<br><br><br>
+
+
+<table class="center-column" style="width: 60%;">
   <tr>
-    <th>Name of settlement</th>
-    <th>Action</th>
+    <th style="width: 15%;">Назва міста</th>
+    <th style="width: 15%;">Редагувати</th>
   </tr>
 
   <tbody>
@@ -19,7 +41,7 @@
         <input type="hidden" name="name" th:value="${weather.name}">
         <input type="text" name="date" th:value="${weather.date}"  readonly>
         <input type="text" name="time" th:value="${weather.time}" readonly>
-        <input type="submit" value="Redact">
+        <input type="submit" value="РЕДАГУВАТИ" class="btn btn-primary btn-sm mb-3">
       </form>
     </td>
   </tr>

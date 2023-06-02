@@ -2,6 +2,7 @@ package com.code.CourseWorkWeather.services;
 
 
 import com.code.CourseWorkWeather.models.GeneralWeather;
+import com.code.CourseWorkWeather.models.Location;
 
 import java.util.List;
 
@@ -17,5 +18,9 @@ public interface GeneralWeatherService {
     List<GeneralWeather> check();
 
     void deleteAllByName(String name);
+
+    List<GeneralWeather> findAllByName(String name);
+    List<GeneralWeather> findAllByDate(String date);
+
 
 }

@@ -2,6 +2,7 @@ package com.code.CourseWorkWeather.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +25,9 @@ public class Location {
     @Column(name = "country")
     private String country;
 
-    public Location(String name) {
+    public Location(String name, String country) {
         this.name = name;
+        this.country = country;
     }
 
     @Override

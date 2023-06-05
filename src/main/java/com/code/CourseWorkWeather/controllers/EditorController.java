@@ -87,7 +87,8 @@ public class EditorController {
         if(weather==null){
             return "errorPage";
         }
-        GeneralWeatherDAO generalWeatherDAO = new GeneralWeatherDAO(name.toUpperCase(), date.toUpperCase(), time.toUpperCase());
+        GeneralWeatherDAO generalWeatherDAO = new GeneralWeatherDAO(name.toUpperCase(), date.toUpperCase(), time.toUpperCase(),
+                weather.getWeather(), weather.getWindSpeed(), weather.getTemperature(), weather.getPrecipitation());
         model.addAttribute("generalWeather", generalWeatherDAO);
         return "redactor";
     }

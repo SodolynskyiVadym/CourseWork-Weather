@@ -7,6 +7,12 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
+
+<div class="text-center">
+    <a th:href="@{/admin/toMainAdminPage}" class="btn btn-primary btn-sm mb-3" >НАЗАД</a>
+</div>
+
+
 <div class="container" style="display: flex; justify-content: center; align-items: flex-start; height: 100vh;">
     <div id="loginbox" style="margin-top: 20vh;" class="col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">
 
@@ -20,16 +26,19 @@
 
                 <div class="card-text">
                     <form th:action="@{/register}" th:object="${userRegisterResponse}" method="POST">
+                        <label>Ім'я</label>
                         <div>
-                        <input type="text" name="username" th:field="*{username}" class="form-control">
-                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" ></p>
+                            <input type="text" name="username" th:field="*{username}" class="form-control">
+                            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></p>
                         </div>
 
+                        <label>Пароль</label>
                         <div>
-                        <input type="password" name="password" th:field="*{password}" class="form-control">
-                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                            <input type="password" name="password" th:field="*{password}" class="form-control">
+                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></p>
                         </div>
 
+                        <label>Повторіть пароль</label>
                         <input type="password" name="passwordConfirmation" th:field="*{passwordConfirmation}" class="form-control">
 
                         <input type="submit" name="ЗАРЕЄСТРУВАТИ"  class="btn btn-primary btn-sm mb-3">
@@ -39,8 +48,6 @@
             </div>
         </div>
     </div>
-
 </div>
-<a th:href="@{/login}">LOG IN</a>
 </body>
 </html>

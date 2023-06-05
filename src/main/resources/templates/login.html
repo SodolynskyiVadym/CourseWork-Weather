@@ -47,12 +47,14 @@
                                 </div>
                             </div>
                         </div>
-
+                        <label>Ім'я</label>
                         <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" name="username" th:field="*{username}" class="form-control">
+                            <input type="text" name="username" th:field="*{username}" class="form-control" placeholder="Ім'я">
                         </div>
+
+                        <label>Пароль</label>
                         <div style="margin-bottom: 25px" class="input-group">
-                            <input type="password" name="password" th:field="*{password}" class="form-control">
+                            <input type="password" name="password" th:field="*{password}" class="form-control"placeholder="Пароль">
                         </div>
                         <div style="margin-top: 10px" class="form-group">
                             <div class="col-sm-6 controls">
@@ -61,7 +63,7 @@
                         </div>
 
                     </form><br>
-                        <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">ГОЛОВНА СТОРІНКА</a>
+                    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">ГОЛОВНА СТОРІНКА</a>
 
                 </div>
 

@@ -72,6 +72,6 @@ public class AuthenticationController {
                 .build();
         userRepository.save(user);
 
-        return "redirect:/login";
+        return "redirect:admin/toMainAdminPage";
     }
 }

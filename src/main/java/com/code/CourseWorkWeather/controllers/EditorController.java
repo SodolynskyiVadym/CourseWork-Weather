@@ -41,6 +41,8 @@ public class EditorController {
         LocationDAO locationDAO = new LocationDAO();
         model.addAttribute("generalDateDAO", generalDateDAO);
         model.addAttribute("locationDAO" , locationDAO);
+        model.addAttribute("locationsList", locationService.findAll());
+        model.addAttribute("dateList", generalDateService.findAll());
         return "editorPage";
     }
 

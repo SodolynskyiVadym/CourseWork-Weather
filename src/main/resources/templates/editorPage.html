@@ -67,8 +67,25 @@
   </div>
 </nav>
 
+<datalist id="locationList">
+  <option th:each="locationfromlist : ${locationsList}" th:value="${locationfromlist.name}"></option>
+</datalist>
 
+<datalist id="dateList">
+  <option th:each="dateFromList : ${dateList}" th:value="${dateFromList.date}"></option>
+</datalist>
+
+<datalist id="timeList">
+  <option>НІЧ</option>
+  <option>РАНОК</option>
+  <option>ДЕНЬ</option>
+  <option>ВЕЧІР</option>
+</datalist>
 <table class="center-column">
+
+
+
+
   <tr>
     <th>ОПИС</th>
     <th>ДІЯ</th>
@@ -116,9 +133,9 @@
           <option>СОНЯЧНО</option>
           <option>ХМАРНО</option>
         </datalist>
-        <input type="text" name="name" placeholder="НАЗВА ПОСЕЛЕННЯ" class="form-control">
-        <input type="text" name="date" placeholder="ДАТА" class="form-control">
-        <input type="text" name="time" placeholder="ЧАС" class="form-control">
+        <input type="text" name="name" placeholder="НАЗВА ПОСЕЛЕННЯ" class="form-control"  list="locationList">
+        <input type="text" name="date" placeholder="ДАТА" class="form-control"  list="dateList">
+        <input type="text" name="time" placeholder="ЧАС" class="form-control"  list="timeList">
         <input type="submit" value="РЕДАКТУВАТИ" class="btn btn-primary btn-sm mb-3">
       </form>
     </td>
@@ -127,7 +144,7 @@
     <td>Видалити дату</td>
     <td>
       <form th:action="@{deleteByDate}" method="POST">
-        <input type="text" name="date" placeholder="ДАТА">
+        <input type="text" name="date" placeholder="ДАТА" list="dateList">
         <input type="submit" value="ВИДАЛИТИ ДАТУ" class="btn btn-primary btn-sm mb-3">
       </form>
     </td>
@@ -136,7 +153,7 @@
     <td>Видалити поселення</td>
     <td>
       <form th:action="@{deleteByLocation}" method="POST">
-        <input type="text" name="name" placeholder="ПОСЕЛЕННЯ">
+        <input type="text" name="name" placeholder="ПОСЕЛЕННЯ" list="locationList">
         <input type="submit" value="ВИДАЛИТИ ПОСЕЛЕННЯ" class="btn btn-primary btn-sm mb-3">
       </form>
     </td>
@@ -145,7 +162,7 @@
     <td>Редагувати поселення</td>
     <td>
       <form th:action="@{updateLocation}" method="POST">
-        <input type="text" name="oldName" placeholder="СТАРА НАЗВА ПОСЕЛЕННЯ" class="form-control">
+        <input type="text" name="oldName" placeholder="СТАРА НАЗВА ПОСЕЛЕННЯ" class="form-control" list="locationList">
         <input type="text" name="newName" placeholder="НОВА НАЗВА ПОСЕЛЕННЯ" class="form-control">
         <input type="text" name="newCountry" placeholder="НОВА НАЗВА КРАЇНИ" class="form-control">
         <input type="submit" value="РЕДАГУВАТИ ПОСЕЛЕННЯ" class="btn btn-primary btn-sm mb-3">
@@ -156,7 +173,7 @@
     <td>Редагувати дату</td>
     <td>
       <form th:action="@{updateDate}" method="POST">
-        <input type="text" name="oldDate" placeholder="СТАРА ДАТА" class="form-control">
+        <input type="text" name="oldDate" placeholder="СТАРА ДАТА" class="form-control" list="dateList">
         <input type="text" name="newPreviousDate" placeholder="НОВА ПОПЕРЕДНЯ ДАТА" class="form-control">
         <input type="text" name="newDate" placeholder="НОВА ДАТА" class="form-control">
         <input type="text" name="newNextDate" placeholder="НОВА НАСТУПНА ДАТА" class="form-control">

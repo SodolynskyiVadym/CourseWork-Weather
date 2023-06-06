@@ -1,7 +1,6 @@
 package com.code.CourseWorkWeather.controllers;
 
 
-import com.code.CourseWorkWeather.bussinesLogic.AdditionalClass;
 import com.code.CourseWorkWeather.dao.GeneralDateDAO;
 import com.code.CourseWorkWeather.dao.GeneralWeatherDAO;
 import com.code.CourseWorkWeather.dao.LocationDAO;
@@ -34,6 +33,17 @@ public class EditorController {
         this.generalDateService = generalDateService;
     }
 
+    private void saveNewWeather(Location location, GeneralDate mainDate, GeneralWeatherServiceImpl generalWeatherService){
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "НІЧ",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "РАНОК",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ДЕНЬ",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
+        generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ВЕЧІР",
+                "не вказано", "не вказано", "не вказано", "не вказано"));
+    }
+
 
     @GetMapping("/toEditorPage")
     private String toEditorPage(Model model){
@@ -59,7 +69,7 @@ public class EditorController {
         locationService.save(location);
         List<GeneralDate> dates = generalDateService.findAll();
         for(GeneralDate generalDate: dates){
-            AdditionalClass.saveNewWeather(location, generalDate, generalWeatherService);
+            this.saveNewWeather(location, generalDate, generalWeatherService);
         }
         return "redirect:/editor/toEditorPage";
     }
@@ -77,7 +87,7 @@ public class EditorController {
         generalDateService.save(generalDate);
         List<Location> locations = locationService.findAll();
         for(Location location: locations){
-            AdditionalClass.saveNewWeather(location, generalDate, generalWeatherService);
+            this.saveNewWeather(location, generalDate, generalWeatherService);
         }
         return "redirect:/editor/toEditorPage";
     }

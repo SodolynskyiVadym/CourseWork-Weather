@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -26,21 +25,6 @@ public class GeneralDateServiceImpl implements GeneralDateService {
         return generalDateRepository.findAll().stream()
                 .sorted((x, y) -> x.getDate().compareTo(y.getDate()))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public GeneralDate findById(int id) {
-        Optional<GeneralDate> result = generalDateRepository.findById(id);
-
-        GeneralDate mainDate;
-
-        if (result.isPresent()) {
-            mainDate = result.get();
-        }
-        else {
-            throw new RuntimeException("Did not find employee id - " + id);
-        }
-        return mainDate;
     }
 
     @Override

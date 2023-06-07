@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class GeneralWeather {
+public class GeneralWeather{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -37,13 +37,12 @@ public class GeneralWeather {
     @Column(name = "precipitation")
     private String precipitation;
 
-    public GeneralWeather(String name, String date, String time) {
-        this.name = name;
-        this.date = date;
-        this.time = time;
-    }
+    @Column(name = "id_memento")
+    private int idMemento;
 
-    public GeneralWeather(String name, String date, String time, String weather, String windSpeed, String temperature, String precipitation) {
+
+    public GeneralWeather(String name, String date, String time, String weather, String windSpeed, String temperature,
+                          String precipitation, int idMemento) {
         this.name = name;
         this.date = date;
         this.time = time;
@@ -51,20 +50,12 @@ public class GeneralWeather {
         this.windSpeed = windSpeed;
         this.temperature = temperature;
         this.precipitation = precipitation;
-    }
-
-    public boolean isNumber(String str) {
-        String regex = "^\\d+$";
-        return str.matches(regex);
+        this.idMemento = idMemento;
     }
 
 
     public boolean checkOnOccupancy(){
-        if ((weather.equals("не вказано") && windSpeed.equals("не вказано") && temperature.equals("не вказано") &&
-                precipitation.equals("не вказано") && this.isNumber(windSpeed) && this.isNumber(temperature)
-                && this.isNumber(precipitation))){
-            return false;
-        }
-        return true;
+        return (weather.equals("не вказано") || windSpeed.equals("не вказано") || temperature.equals("не вказано") ||
+                precipitation.equals("не вказано"));
     }
 }

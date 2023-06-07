@@ -59,7 +59,7 @@
 
                         <label>ПОГОДА</label>
                         <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text"th:field="*{weather}" placeholder="Weather" list="weatherlist">
+                            <input type="text" th:field="*{weather}" placeholder="Weather" list="weatherlist">
                             <span th:errors="*{weather}" class="error-message"></span>
                         </div>
                         <div class="error-container">
@@ -85,15 +85,25 @@
                         </div><br>
                         <button type="submit" class="btn btn-primary btn-sm mb-3">ЗБЕРЕГТИ</button>
                     </form><br>
-                    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">ГОЛОВНА СТОРІНКА</a>
 
+                    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">ГОЛОВНА СТОРІНКА</a><br>
+
+                    <div th:if="${haveHistory}">
+                        <form th:action="@{showRedactorPageMemento}" th:method="POST">
+                            <input type="hidden" th:value="${generalWeather.name}" th:name="name">
+                            <input type="hidden" th:value="${generalWeather.date}" th:name="date">
+                            <input type="hidden" th:value="${generalWeather.time}" th:name="time">
+                            <input type="hidden" th:value="${idOfMemento}" th:name="idOfMemento">
+                            <button type="submit" class="btn btn-primary btn-sm mb-3">ПОКАЗАТИ ДАНІ ДО ЗМІНИ</button>
+                        </form>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
-
 </div>
+
 
 
 </body>

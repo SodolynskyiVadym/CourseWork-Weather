@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GeneralWeatherDAO {
+public class GeneralWeatherDAO{
     private String name;
 
     private String date;

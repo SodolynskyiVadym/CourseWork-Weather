@@ -4,10 +4,12 @@ package com.code.CourseWorkWeather.controllers;
 import com.code.CourseWorkWeather.dao.GeneralDateDAO;
 import com.code.CourseWorkWeather.dao.GeneralWeatherDAO;
 import com.code.CourseWorkWeather.dao.LocationDAO;
+import com.code.CourseWorkWeather.memento.GeneralWeatherMemento;
 import com.code.CourseWorkWeather.models.GeneralDate;
 import com.code.CourseWorkWeather.models.GeneralWeather;
 import com.code.CourseWorkWeather.models.Location;
 import com.code.CourseWorkWeather.services.GeneralDateServiceImpl;
+import com.code.CourseWorkWeather.services.GeneralWeatherMementoServiceImpl;
 import com.code.CourseWorkWeather.services.GeneralWeatherServiceImpl;
 import com.code.CourseWorkWeather.services.LocationServiceImpl;
 import jakarta.validation.Valid;
@@ -24,24 +26,27 @@ public class EditorController {
     LocationServiceImpl locationService;
     GeneralWeatherServiceImpl generalWeatherService;
     GeneralDateServiceImpl generalDateService;
+    GeneralWeatherMementoServiceImpl generalWeatherMementoService;
+
 
     @Autowired
     public EditorController(LocationServiceImpl locationService, GeneralWeatherServiceImpl generalWeatherService,
-                            GeneralDateServiceImpl generalDateService) {
+                            GeneralDateServiceImpl generalDateService, GeneralWeatherMementoServiceImpl generalWeatherMementoService) {
         this.locationService = locationService;
         this.generalWeatherService = generalWeatherService;
         this.generalDateService = generalDateService;
+        this.generalWeatherMementoService = generalWeatherMementoService;
     }
 
     private void saveNewWeather(Location location, GeneralDate mainDate, GeneralWeatherServiceImpl generalWeatherService){
         generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "НІЧ",
-                "не вказано", "не вказано", "не вказано", "не вказано"));
+                "не вказано", "не вказано", "не вказано", "не вказано",-1));
         generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "РАНОК",
-                "не вказано", "не вказано", "не вказано", "не вказано"));
+                "не вказано", "не вказано", "не вказано", "не вказано", -1));
         generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ДЕНЬ",
-                "не вказано", "не вказано", "не вказано", "не вказано"));
+                "не вказано", "не вказано", "не вказано", "не вказано", -1));
         generalWeatherService.save(new GeneralWeather(location.getName(), mainDate.getDate(), "ВЕЧІР",
-                "не вказано", "не вказано", "не вказано", "не вказано"));
+                "не вказано", "не вказано", "не вказано", "не вказано", -1));
     }
 
 
@@ -99,37 +104,89 @@ public class EditorController {
         if(weather==null){
             return "errorPage";
         }
+        boolean haveHistory = (weather.getIdMemento() != -1);
+
         GeneralWeatherDAO generalWeatherDAO = new GeneralWeatherDAO(name.toUpperCase(), date.toUpperCase(), time.toUpperCase(),
                 weather.getWeather(), weather.getWindSpeed(), weather.getTemperature(), weather.getPrecipitation());
+        model.addAttribute("haveHistory", haveHistory);
         model.addAttribute("generalWeather", generalWeatherDAO);
+        model.addAttribute("idOfMemento", weather.getIdMemento());
+        return "redactor";
+    }
+
+
+    @PostMapping("/showRedactorPageMemento")
+    public String toRedactorPageMemento(@RequestParam("name") String name, @RequestParam("date") String date,
+                                        @RequestParam("time") String time, @RequestParam("idOfMemento") int idOfMemento,
+                                        Model model){
+        GeneralWeatherMemento weatherMemento = generalWeatherMementoService.findById(idOfMemento);
+        GeneralWeatherDAO generalWeatherDAO = new GeneralWeatherDAO(name, date, time, weatherMemento.getWeather(), weatherMemento.getWindSpeed(),
+                weatherMemento.getTemperature(), weatherMemento.getPrecipitation());
+
+        model.addAttribute("generalWeather", generalWeatherDAO);
+        model.addAttribute("haveHistory", false);
+        model.addAttribute("idOfMemento", weatherMemento.getId());
         return "redactor";
     }
 
     @PostMapping("/save")
-    public String saveMainWeathers(@Valid @ModelAttribute("generalWeather") GeneralWeatherDAO generalWeatherDAO, BindingResult bindingResult) {
+    public String saveMainWeathers(@Valid @ModelAttribute("generalWeather") GeneralWeatherDAO generalWeatherDAO,
+                                   BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "redactor";
         }
         GeneralWeather generalWeather = generalWeatherService.findByNameDateTime(generalWeatherDAO.getName(), generalWeatherDAO.getDate(),
                 generalWeatherDAO.getTime());
+
+
+        GeneralWeatherMemento generalWeatherMemento;
+        if (generalWeather.getIdMemento() == -1){
+            generalWeatherMemento = new GeneralWeatherMemento();
+            generalWeatherMemento.setGeneralWeatherMemento(generalWeather);
+        }else {
+            generalWeatherMemento = generalWeatherMementoService.findById(generalWeather.getIdMemento());
+            generalWeatherMemento.setGeneralWeatherMemento(generalWeather);
+        }
+        generalWeatherMementoService.save(generalWeatherMemento);
+        generalWeather.setIdMemento(generalWeatherMemento.getId());
+
         generalWeather.setTemperature(generalWeatherDAO.getTemperature());
         generalWeather.setWeather(generalWeatherDAO.getWeather());
         generalWeather.setWindSpeed(generalWeatherDAO.getWindSpeed());
         generalWeather.setPrecipitation(generalWeatherDAO.getPrecipitation());
+
         generalWeatherService.save(generalWeather);
         return "redirect:/editor/toEditorPage";
     }
 
     @PostMapping("/deleteByDate")
     String deleteDate(@RequestParam("date") String date){
-        generalWeatherService.deleteAllByDate(date.toUpperCase());
+        List<GeneralWeather> generalWeathers = generalWeatherService.findAllByDate(date.toUpperCase());
+
+        for (GeneralWeather weather : generalWeathers){
+            if (weather.getIdMemento() != -1){
+                generalWeatherMementoService.deleteById(weather.getIdMemento());
+            }
+            generalWeatherService.delete(weather);
+        }
+//        generalWeatherService.deleteAllByDate(date.toUpperCase());
+
         generalDateService.deleteAllByDate(date.toUpperCase());
         return "redirect:/editor/toEditorPage";
     }
 
     @PostMapping("/deleteByLocation")
     String deleteLocation(@RequestParam("name") String name){
-        generalWeatherService.deleteAllByName(name.toUpperCase());
+
+        List<GeneralWeather> generalWeathers = generalWeatherService.findAllByName(name.toUpperCase());
+
+        for (GeneralWeather weather : generalWeathers){
+            if (weather.getIdMemento() != -1){
+                generalWeatherMementoService.deleteById(weather.getIdMemento());
+            }
+            generalWeatherService.delete(weather);
+        }
+//        generalWeatherService.deleteAllByName(name.toUpperCase());
         locationService.deleteAllByName(name.toUpperCase());
         return "redirect:/editor/toEditorPage";
     }

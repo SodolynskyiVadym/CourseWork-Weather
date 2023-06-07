@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface GeneralDateService {
     List<GeneralDate> findAll();
-    GeneralDate findById(int id);
     void save(GeneralDate mainDate);
     void deleteAllByDate(String date);
 

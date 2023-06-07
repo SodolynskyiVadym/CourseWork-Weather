@@ -16,4 +16,6 @@ public interface GeneralWeatherRepository extends JpaRepository<GeneralWeather, 
     List<GeneralWeather> findAllByNameAndDate(String name, String date);
     List<GeneralWeather> findAllByName(String name);
     List<GeneralWeather> findAllByDate(String date);
+
+    void delete(GeneralWeather generalWeather);
 }

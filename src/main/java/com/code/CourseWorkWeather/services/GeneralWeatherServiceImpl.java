@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,21 +24,6 @@ public class GeneralWeatherServiceImpl implements GeneralWeatherService {
     }
 
     @Override
-    public GeneralWeather findById(int id) {
-        Optional<GeneralWeather> result = generalWeatherRepository.findById(id);
-
-        GeneralWeather weather;
-
-        if (result.isPresent()) {
-            weather = result.get();
-        }
-        else {
-            throw new RuntimeException("Did not find employee id - " + id);
-        }
-        return weather;
-    }
-
-    @Override
     public void save(GeneralWeather mainWeather) {
         generalWeatherRepository.save(mainWeather);
     }
@@ -51,14 +35,8 @@ public class GeneralWeatherServiceImpl implements GeneralWeatherService {
 
     @Transactional
     @Override
-    public void deleteAllByDate(String date) {
-        generalWeatherRepository.deleteAllByDate(date);
-    }
-
-    @Transactional
-    @Override
-    public void deleteAllByName(String name) {
-        generalWeatherRepository.deleteAllByName(name);
+    public void delete(GeneralWeather generalWeather){
+        generalWeatherRepository.delete(generalWeather);
     }
 
     @Override

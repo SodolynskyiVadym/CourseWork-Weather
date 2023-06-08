@@ -9,9 +9,13 @@
 <body>
 
 <div class="text-center">
-    <a th:href="@{/admin/toMainAdminPage}" class="btn btn-primary btn-sm mb-3" >НАЗАД</a>
+    <a th:href="@{/admin/toMainAdminPage}" class="btn btn-primary btn-sm mb-3">НАЗАД</a>
 </div>
 
+<div class="jumbotron text-center">
+    <h3 th:text="${passwordsNotEqual}" style="color: red;"></h3>
+    <h3 th:text="${usernameIsTaken}" style="color: red;"></h3>
+</div>
 
 <div class="container" style="display: flex; justify-content: center; align-items: flex-start; height: 100vh;">
     <div id="loginbox" style="margin-top: 20vh;" class="col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">

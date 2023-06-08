@@ -44,6 +44,10 @@ public class AuthenticationController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("userRegisterResponse", userRegisterResponse);
+        model.addAttribute("passwordsNotEqual", "");
+        model.addAttribute("usernameIsTaken", "");
+
+
         return "register";
     }
 
